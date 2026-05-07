@@ -5,6 +5,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
+#include "runcmd.h"
 /*
     * Hello im really bad at this stuff so ima try to make a new larger project
     * it is a basic shell BUT this time it will be more standalone
@@ -86,18 +87,6 @@ char ** tokenize(char *string)
 
     token_array[token_count] = NULL;
     return token_array;
-}
-
-int runcmd(char ** argv)
-{
-    __pid_t pid = fork();
-
-    if (pid == 0)
-    {
-        execv(argv[0],argv);
-    }
-    else if (pid > 0) wait(NULL);
-    else return -1;
 }
 
 int main(void)
