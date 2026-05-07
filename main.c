@@ -3,6 +3,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+
 /*
     * Hello im really bad at this stuff so ima try to make a new larger project
     * it is a basic shell BUT this time it will be more standalone
@@ -103,9 +105,12 @@ int main(void)
     
     while (1)
     {
-        char * code = readline(stdin);
-        runcmd(tokenize(code));
-        free(code);
+        char * command = readline(stdin);
+        char ** parsed_command = tokenize(command); 
+        runcmd(parsed_command);
+
+        free(parsed_command);
+        free(command);
     }
 
     return 0;
