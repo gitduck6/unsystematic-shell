@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/wait.h>
 /*
     * Hello im really bad at this stuff so ima try to make a new larger project
     * it is a basic shell BUT this time it will be more standalone
@@ -85,10 +86,27 @@ char ** tokenize(char *string)
     return token_array;
 }
 
+int runcmd(char ** argv)
+{
+    __pid_t pid = fork();
+
+    if (pid == 0)
+    {
+        execv(argv[0],argv);
+    }
+    else if (pid > 0) wait(NULL);
+    else return -1;
+}
+
 int main(void)
 {
-    char * code = readline(stdin);
-    execv("/usr/bin/ls", tokenize(code));
-    free(code);
+    
+    while (1)
+    {
+        char * code = readline(stdin);
+        runcmd(tokenize(code));
+        free(code);
+    }
+
     return 0;
 }
