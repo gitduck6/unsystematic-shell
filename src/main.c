@@ -1,9 +1,4 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <sys/types.h>
 
 #include "runcmd.h"
 #include "lexer.h"
@@ -17,6 +12,11 @@
     * 
     * Currently does almost nothing but execute commands in a very rudimentary way
     * did i mention that im making this cos i was too stupid to read xv6's sh.c
+    * 
+    * Hello dear reader! the development is going nice :)
+    * atleast i feel nice coding it
+    * i never wrote a "devlog" or even read one, maybe i should try that sometimes
+    * also i seperated some functions into different files
 */
 
 int main(void)
