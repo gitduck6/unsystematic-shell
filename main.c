@@ -46,7 +46,7 @@ char * readline(FILE * fd)
 char ** tokenize(char *string)
 {
     size_t token_count = 0;
-    size_t token_size = 2;
+    size_t token_size = 4;
     char ** token_array = malloc(sizeof(char *) * token_size);
     if (token_array == NULL) 
     {
@@ -60,10 +60,10 @@ char ** tokenize(char *string)
         token = strtok(NULL," \t");
         token_count++;
 
-        if (token_count >= token_size)
+        if ((token_count + 1) >= token_size)
         {
-            token_size *= 4;
-            char **temp = realloc(token_array,sizeof(char*) * (token_size + 1));
+            token_size *= 2;
+            char **temp = realloc(token_array,sizeof(char*) * token_size);
             if (temp == NULL) 
             {
                 free(token_array);
@@ -73,13 +73,13 @@ char ** tokenize(char *string)
         }
     }
 
-    char ** temp = realloc(token_array,sizeof(char*) * token_size );
-    if (temp == NULL) 
+    char ** temp = realloc(token_array,sizeof(char*) * (token_count + 1) );
+    if (temp != NULL) 
     {
-        free(token_array);
-        return NULL;
-    } 
-    else token_array = temp;
+        token_array = temp;
+    }
+    // Lets just return it as was  in case of a realloc fail without freeing
+    // since this part only attempts to lower the size, we already got more than enough memory anyway 
 
     token_array[token_count] = NULL;
     return token_array;
