@@ -70,5 +70,23 @@ Command tokenize(char *string)
     // since this part only attempts to lower the size, we already got more than enough memory anyway 
 
     token_struct.argv[token_count] = NULL;
+    token_struct.input = NULL;
+    token_struct.output = NULL;
+
+    for (size_t i = 0;i < token_count;i++)
+    {
+        if (!strcmp(token_struct.argv[i],">"))
+        {
+            token_struct.output = ((i+1) < token_count) ? token_struct.argv[i+1] : NULL;
+            token_struct.argv[i] = NULL;
+            break;
+        }
+        if (!strcmp(token_struct.argv[i],"<"))
+        {
+            token_struct.input = ((i+1) < token_count) ? token_struct.argv[i+1] : NULL;
+            token_struct.argv[i] = NULL;
+            break;
+        }
+    }
     return token_struct;
 }
