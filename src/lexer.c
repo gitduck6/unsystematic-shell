@@ -75,17 +75,19 @@ Command tokenize(char *string)
 
     for (size_t i = 0;i < token_count;i++)
     {
-        if (!strcmp(token_struct.argv[i],">"))
+        if (token_struct.argv[i] == NULL)
+        continue;
+
+        if ((!strcmp(token_struct.argv[i],">")) && (token_struct.output == NULL))
         {
             token_struct.output = ((i+1) < token_count) ? token_struct.argv[i+1] : NULL;
             token_struct.argv[i] = NULL;
-            break;
         }
-        if (!strcmp(token_struct.argv[i],"<"))
+        else
+        if ((!strcmp(token_struct.argv[i],"<")) && (token_struct.input == NULL))
         {
             token_struct.input = ((i+1) < token_count) ? token_struct.argv[i+1] : NULL;
             token_struct.argv[i] = NULL;
-            break;
         }
     }
     return token_struct;
