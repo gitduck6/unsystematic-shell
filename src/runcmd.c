@@ -1,12 +1,12 @@
 #include "runcmd.h"
 
-int runcmd(char ** argv)
+int runcmd(command cmd)
 {
     __pid_t pid = fork();
 
     if (pid == 0)
     {
-        execvp(argv[0],argv);
+        execvp(cmd.argv[0],cmd.argv);
         return 0;
     }
     else if (pid > 0) 
