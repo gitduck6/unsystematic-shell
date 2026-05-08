@@ -30,7 +30,7 @@ char * readline(FILE * fd)
 /*
     attempts to return a cstring array in the {"Hello", "World", "!", NULL}; format
 */
-char ** tokenize(char *string)
+Command tokenize(char *string)
 {
     size_t token_count = 0;
     size_t token_size = 4;

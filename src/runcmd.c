@@ -1,6 +1,6 @@
 #include "runcmd.h"
 
-int runcmd(command cmd)
+int runcmd(Command cmd)
 {
     __pid_t pid = fork();
 

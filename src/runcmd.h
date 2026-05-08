@@ -5,15 +5,8 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
-typedef struct command
-{
-    char ** argv;
-    char *output;
-    char *input;
-}
-command;
+#include "command.h"
 
-
-int runcmd(command cmd);
+int runcmd(Command cmd);
 
 #endif
