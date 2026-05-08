@@ -24,10 +24,12 @@ int main(void)
     
     while (1)
     {
+        printf("$ ");
         char * shell_input = readline(stdin);
         Command parsed_command = tokenize(shell_input); 
         runcmd(parsed_command);
-        printf("%s %s",parsed_command.input, parsed_command.output);
+
+        //printf("%s %s",parsed_command.input, parsed_command.output);
 
         free(parsed_command.argv);
         free(shell_input);
