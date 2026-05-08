@@ -6,8 +6,13 @@ int runcmd(char ** argv)
 
     if (pid == 0)
     {
-        execv(argv[0],argv);
+        execvp(argv[0],argv);
+        return 0;
     }
-    else if (pid > 0) wait(NULL);
+    else if (pid > 0) 
+    {
+        wait(NULL);
+        return 0;
+    }
     else return -1;
 }
