@@ -25,10 +25,10 @@ int main(void)
     while (1)
     {
         char * command = readline(stdin);
-        char ** parsed_command = tokenize(command); 
+        Command parsed_command = tokenize(command); 
         runcmd(parsed_command);
 
-        free(parsed_command);
+        free(parsed_command.argv);
         free(command);
     }
 
