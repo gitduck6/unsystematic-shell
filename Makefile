@@ -6,4 +6,4 @@ CC	:= gcc
 OUT	:= ush
 
 $(OUT) : $(SRC)
-	$(CC) -Wall -Wextra $(SRC) -o $(OUT)
+	$(CC) -Iinclude -Wall -Wextra $(SRC) -o $(OUT) 
