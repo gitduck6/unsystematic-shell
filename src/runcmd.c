@@ -13,6 +13,9 @@ int runcmd(Command cmd)
             freopen(cmd.input,"r",stdin);
         
         execvp(cmd.argv[0],cmd.argv);
+
+        perror(cmd.argv[0]);
+        exit(1);
         return 0;
     }
     else if (pid > 0) 
