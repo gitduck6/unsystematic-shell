@@ -30,65 +30,64 @@ char * readline(FILE * fd)
 /*
     attempts to return a cstring array in the {"Hello", "World", "!", NULL}; format
 */
-Command tokenize(char *string)
+int tokenize(char *string, Command* target)
 {
     size_t token_count = 0;
     size_t token_size = 4;
-    Command token_struct;
-    token_struct.argv = malloc(sizeof(char *) * token_size);
-    if (token_struct.argv == NULL) 
+    (*target).argv = malloc(sizeof(char *) * token_size);
+    if ((*target).argv == NULL) 
     {
-        return (Command){0};
+        return -2;
     } 
 
     char * token = strtok(string," \t"); // either space or tab
     while (token != NULL)
     {
-        token_struct.argv[token_count] = token;
+        (*target).argv[token_count] = token;
         token = strtok(NULL," \t");
         token_count++;
 
         if ((token_count + 1) >= token_size)
         {
             token_size *= 2;
-            char **temp = realloc(token_struct.argv,sizeof(char*) * token_size);
+            char **temp = realloc((*target).argv,sizeof(char*) * token_size);
             if (temp == NULL) 
             {
-                free(token_struct.argv);
-                return (Command){0};
+                free((*target).argv);
+                return -1;
             } 
-            else token_struct.argv = temp;
+            else (*target).argv = temp;
         }
     }
 
-    char ** temp = realloc(token_struct.argv,sizeof(char*) * (token_count + 1) );
+    char ** temp = realloc((*target).argv,sizeof(char*) * (token_count + 1) );
     if (temp != NULL) 
     {
-        token_struct.argv = temp;
+        (*target).argv = temp;
     }
     // Lets just return it as was  in case of a realloc fail without freeing
     // since this part only attempts to lower the size, we already got more than enough memory anyway 
 
-    token_struct.argv[token_count] = NULL;
-    token_struct.input = NULL;
-    token_struct.output = NULL;
+    (*target).argv[token_count] = NULL;
+    (*target).input = NULL;
+    (*target).output = NULL;
 
     for (size_t i = 0;i < token_count;i++)
     {
-        if (token_struct.argv[i] == NULL)
+        if ((*target).argv[i] == NULL)
         continue;
 
-        if ((!strcmp(token_struct.argv[i],">")) && (token_struct.output == NULL))
+        if ((!strcmp((*target).argv[i],">")) && ((*target).output == NULL))
         {
-            token_struct.output = ((i+1) < token_count) ? token_struct.argv[i+1] : NULL;
-            token_struct.argv[i] = NULL;
+            (*target).output = ((i+1) < token_count) ? (*target).argv[i+1] : NULL;
+            (*target).argv[i] = NULL;
         }
         else
-        if ((!strcmp(token_struct.argv[i],"<")) && (token_struct.input == NULL))
+        if ((!strcmp((*target).argv[i],"<")) && ((*target).input == NULL))
         {
-            token_struct.input = ((i+1) < token_count) ? token_struct.argv[i+1] : NULL;
-            token_struct.argv[i] = NULL;
+            (*target).input = ((i+1) < token_count) ? (*target).argv[i+1] : NULL;
+            (*target).argv[i] = NULL;
         }
     }
-    return token_struct;
+    return 0;
 }

@@ -26,10 +26,11 @@ int main(void)
     {
         printf("$ ");
         char * shell_input = readline(stdin);
-        Command parsed_command = tokenize(shell_input); 
-        runcmd(parsed_command);
 
-        //printf("%s %s",parsed_command.input, parsed_command.output);
+        Command parsed_command;
+        tokenize(shell_input, &parsed_command); 
+
+        runcmd(parsed_command);
 
         free(parsed_command.argv);
         free(shell_input);

@@ -7,6 +7,6 @@
 #include "command.h"
 
 char * readline(FILE * fd);
-Command tokenize(char *string);
+int tokenize(char *string, Command* target);
 
 #endif
