@@ -4,7 +4,7 @@ char * readline(FILE * fd)
 {
     size_t size = 16;
     size_t len = 0;
-    char * dest = malloc(size);
+    char * dest = calloc(size,sizeof(char));
     if (dest == NULL) return NULL;
 
     char c;
