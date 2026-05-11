@@ -6,6 +6,12 @@ int runcmd(Command cmd)
 
     if (pid == 0)
     {
+        if (cmd.output != NULL)
+            freopen(cmd.output,"w",stdout);
+            
+        if (cmd.input != NULL)
+            freopen(cmd.input,"r",stdin);
+        
         execvp(cmd.argv[0],cmd.argv);
         return 0;
     }
