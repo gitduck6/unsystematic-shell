@@ -34,8 +34,8 @@ int tokenize(char *string, Command* target)
 {
     size_t token_count = 0;
     size_t token_size = 4;
-    (*target).argv = malloc(sizeof(char *) * token_size);
-    if ((*target).argv == NULL) 
+    target->argv = malloc(sizeof(char *) * token_size);
+    if (target->argv == NULL) 
     {
         return -2;
     } 
@@ -43,50 +43,50 @@ int tokenize(char *string, Command* target)
     char * token = strtok(string," \t"); // either space or tab
     while (token != NULL)
     {
-        (*target).argv[token_count] = token;
+        target->argv[token_count] = token;
         token = strtok(NULL," \t");
         token_count++;
 
         if ((token_count + 1) >= token_size)
         {
             token_size *= 2;
-            char **temp = realloc((*target).argv,sizeof(char*) * token_size);
+            char **temp = realloc(target->argv,sizeof(char*) * token_size);
             if (temp == NULL) 
             {
-                free((*target).argv);
+                free(target->argv);
                 return -1;
             } 
-            else (*target).argv = temp;
+            else target->argv = temp;
         }
     }
 
-    char ** temp = realloc((*target).argv,sizeof(char*) * (token_count + 1) );
+    char ** temp = realloc(target->argv,sizeof(char*) * (token_count + 1) );
     if (temp != NULL) 
     {
-        (*target).argv = temp;
+        target->argv = temp;
     }
     // Lets just return it as was  in case of a realloc fail without freeing
     // since this part only attempts to lower the size, we already got more than enough memory anyway 
 
-    (*target).argv[token_count] = NULL;
-    (*target).input = NULL;
-    (*target).output = NULL;
+    target->argv[token_count] = NULL;
+    target->input = NULL;
+    target->output = NULL;
 
     for (size_t i = 0;i < token_count;i++)
     {
-        if ((*target).argv[i] == NULL)
+        if (target->argv[i] == NULL)
         continue;
 
-        if ((!strcmp((*target).argv[i],">")) && ((*target).output == NULL))
+        if ((!strcmp(target->argv[i],">")) && (target->output == NULL))
         {
-            (*target).output = ((i+1) < token_count) ? (*target).argv[i+1] : NULL;
-            (*target).argv[i] = NULL;
+            target->output = ((i+1) < token_count) ? target->argv[i+1] : NULL;
+            target->argv[i] = NULL;
         }
         else
-        if ((!strcmp((*target).argv[i],"<")) && ((*target).input == NULL))
+        if ((!strcmp(target->argv[i],"<")) && (target->input == NULL))
         {
-            (*target).input = ((i+1) < token_count) ? (*target).argv[i+1] : NULL;
-            (*target).argv[i] = NULL;
+            target->input = ((i+1) < token_count) ? target->argv[i+1] : NULL;
+            target->argv[i] = NULL;
         }
     }
     return 0;
