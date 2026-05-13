@@ -102,7 +102,7 @@ int tokenize(char *string, Command* target)
     for (size_t i = 0;i < token_count;i++)
     {
         if (target->argv[i] == NULL)
-        continue;
+        break;
 
         if ((!strcmp(target->argv[i],">")) && (target->output == NULL))
         {
