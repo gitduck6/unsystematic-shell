@@ -1,5 +1,32 @@
 #include "lexer.h"
 
+/*
+    * Hello in this text i will attept to document the functions in this file,
+    * ill document it in a format similar runcmd.c
+    * ----
+    * readline function:
+    * this function uses a dynamic approach to get everything 
+    * from the terminal input to a buffer.
+    * after which it will tokenise said input and later execute it
+    * 
+    * the algorithm initially creates a 16 byte buffer
+    * (also use calloc since malloc would print some garbage values)
+    * gets a character from the FD untill the character is a EOF or a newline
+    * IF len (the amount of letters we have already taken) is almost as large as our buffer
+    * double the size of the buffer
+    * after this just make the character position we are at to the character we just got
+    * 
+    * after finally reaching an EOF or newline. just NULL terminate the string we made for safety
+    * and return the string.
+    * 
+    * P.S.: sometimes i cant even read what i wrote, 
+    * so please leave an issue/PR if any part is ambigious.
+    * Thank you!
+    * ----
+    *
+    * 
+*/
+
 char * readline(FILE * fd)
 {
     size_t size = 16;
