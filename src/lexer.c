@@ -23,7 +23,46 @@
     * so please leave an issue/PR if any part is ambigious.
     * Thank you!
     * ----
-    *
+    * tokenize function:
+    * This function takes a string (specifically the user input we got from readline)
+    * and parses it into a Command struct containing a tokenised string array,
+    * input and output filenames.
+    * 
+    * id like to seperate this funciton into 2 sections,
+    * firstly the raw tokenisation, where its just seperated into argv style string array
+    * secondly the i/o tokenisation, where we decide where the output and input are
+    * 
+    * at first we need to understand what strtok does, so please look up the opengroup definition.
+    * https://pubs.opengroup.org/onlinepubs/007904975/functions/strtok.html 
+    * but ofc there are other sources too
+    * what we do is, make a dynamic buffer that doubles when needed similar to readline's
+    * but here its a char pointer array, each containing a string (what execv() expects)
+    * each pointer gets a string via strtok, grows when needs to and doesnt stop till strtok returns a NULL 
+    * (thats when it ends i think)
+    * 
+    * section2:
+    * this part essentially  takes our raw token array
+    * e.g. : argv={"ls", "-la", ">", "file.txt", NULL}, output=NULL, input=NULL
+    * and turns it to a command struct containing something like
+    * argv={"ls", "-la", NULL}, output="file.txt", input=NULL
+    * (btw if input/output is null we use the regular std i/o's)
+    * 
+    * algorithm overview:
+    * iterate through the tokens,
+    * if we are at NULL (token end) break and exit the function;
+    * if we see a > and output isnt defined
+    * THEN define output as the next token IF IT EXISTS (aka is in our token_count range)
+    * cut the rest of the token array cos we dont need the > in execution
+    * 
+    * if we see a < and input isnt defined
+    * THEN define input as the next token IF IT EXISTS (aka is in our token_count range)
+    * cut the rest of the token array cos we dont need the < in execution
+    * 
+    * PHEW, that was alot. 
+    * also now thanks to this i think i see a few edge cases that may have unwanted behaviour
+    * which i plan to hopefully fix 
+    * AGAIN, if there are any inconsistencies while reading this, PLEASE leave an issue or a PR
+    * id be happy if you did so! (or just text me if ur too lazy)
     * 
 */
 
@@ -59,6 +98,7 @@ char * readline(FILE * fd)
 */
 int tokenize(char *string, Command* target)
 {
+    //section1:
     size_t token_count = 0;
     size_t token_size = 4;
     target->argv = malloc(sizeof(char *) * token_size);
@@ -87,6 +127,7 @@ int tokenize(char *string, Command* target)
         }
     }
 
+    // resize to the exact needed size
     char ** temp = realloc(target->argv,sizeof(char*) * (token_count + 1) );
     if (temp != NULL) 
     {
@@ -95,9 +136,11 @@ int tokenize(char *string, Command* target)
     // Lets just return it as was  in case of a realloc fail without freeing
     // since this part only attempts to lower the size, we already got more than enough memory anyway 
 
-    target->argv[token_count] = NULL;
+    //section2:
+    target->argv[token_count] = NULL; //null terminate pointer array
     target->input = NULL;
     target->output = NULL;
+    // Set to null to have it undefined initially
 
     for (size_t i = 0;i < token_count;i++)
     {
