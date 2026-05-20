@@ -5,6 +5,7 @@ Hello dear reader! this shell intends to be a minimal unix shell with simple and
 I wanted to name it **Ulduz shell**, ulduz meaning star in my language Azerbaijani, while star had no specific meaning or relation to the project, I just thought it would fit since I was already calling it ush. Despite all this I changed my mind after my friend didnt like the name :p.
 So currently looking for a proper name, a suggeestion wouldnt be bad!
 
+and please dont mind the possibly messy text, cos its kinda hard to update the readme eachtime consistently
 ## Current feature list:
 
 | Feature                    | State           |
@@ -14,10 +15,10 @@ So currently looking for a proper name, a suggeestion wouldnt be bad!
 | Pipes                      | Not implemented |  
 | Sequential execution       | Not implemented | 
 | Daemonisation of a command | Not Implemented |
-| Some internal commands | Not Implemented|
+| Some internal commands | only cd |
 | Scriptablity | None|
 | Proper signal handling | Nope|
-| enviroment variable support| No|
+| enviroment variable support| only reading via $ |
 | Autofill via tab           | Unplanned       |
 
 there kinda isnt a whole lot rn buuuut.... it is what it is.
