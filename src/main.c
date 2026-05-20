@@ -24,7 +24,7 @@ int main(void)
     
     while (1)
     {
-        printf("$ ");
+        printf(" %s ",SHELL_PROMPT);
         char * shell_input = readline(stdin);
 
         Command parsed_command;

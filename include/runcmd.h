@@ -9,6 +9,8 @@
 
 #include "command.h"
 
+#define SHELL_PROMPT "%"
+
 int runcmd(Command cmd);
 
 #endif
