@@ -1,6 +1,9 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
+#include <unistd.h>
+#include <stdio.h>
+
 typedef struct command
 {
     char ** argv;
@@ -8,5 +11,15 @@ typedef struct command
     char *input;
 }
 Command;
+
+typedef struct internal_command
+{
+    const char * name;
+    int (*execute)(char **argv);
+}
+internalCommand;
+
+int change_dir(char **argv);
+
 
 #endif
