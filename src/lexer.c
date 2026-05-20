@@ -64,6 +64,13 @@
     * AGAIN, if there are any inconsistencies while reading this, PLEASE leave an issue or a PR
     * id be happy if you did so! (or just text me if ur too lazy)
     * 
+    * section 3: (enviroment variables)
+    * This section might be the simplest one yet
+    * 
+    * goes through the token array, if it sees a token starting with $
+    * assumes its a variable, get the variable via getenv()
+    * and replace the token with the getenv's value
+    * but when it doesnt exist, put a space in its place (THATS WHEN IT IS NULL)
 */
 
 char * readline(FILE * fd)
