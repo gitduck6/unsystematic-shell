@@ -4,6 +4,15 @@
     * In this documentation i will reference "sections" of the code with the following syntax:
     * // SECTION NAME:
     * ----
+    * internal command:
+    * the internal command part is quite simple once youve grasped all the other stuff it uses
+    * it goes through the internal command list, 
+    * if it finds an internal command with the same name as the inputted command,
+    * execute that internal commands function (with the argv of the cmd) 
+    * 
+    * Credits: i learned about this name-functionpointer struct approach 
+    * in the Vahix operating systems shell, so great thanks to that
+    * ----
     * i/o redirection
     * If output not null, we assume its a filename
     * since the tokenizer sets it to NULL If no file redirection involved
@@ -12,7 +21,7 @@
     * 
     * Same with the input for stdin
     * ----
-    * creating the process
+    * creating the process:
     * This shell follows a method common in unix systems:
     * - create a child (a clone via fork() )
     * - turn the child to a process we need (via execvp() )
@@ -25,6 +34,15 @@
 
 int runcmd(Command cmd)
 {    
+    // (Check if its an) internal command:
+    for (int i = 0;i < icmd_count;i++)
+    {
+        if (strcmp(internal_commands[i].name,cmd.argv[0]) == 0)
+        {
+            return internal_commands[i].execute(cmd.argv);
+        }
+    }
+
     // creating the process:
     __pid_t pid = fork();
 
