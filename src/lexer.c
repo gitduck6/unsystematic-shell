@@ -159,5 +159,26 @@ int tokenize(char *string, Command* target)
             target->argv[i] = NULL;
         }
     }
+
+    //section3: (enviroment variables)
+    for (size_t i = 0;i < token_count;i++)
+    {
+        if (target->argv[i] == NULL)
+        break;
+
+        if (target->argv[i][0] == '$')
+        {
+            // +1 in order to get the part after the dollar sign
+            char * variable = getenv(target->argv[i]+1);
+            
+            if (variable != NULL)
+            {
+                target->argv[i] = variable;
+            }
+            else
+                target->argv[i] = " ";
+        }
+    }
+
     return 0;
 }
