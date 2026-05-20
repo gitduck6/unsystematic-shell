@@ -12,7 +12,7 @@ typedef struct command
 }
 Command;
 
-typedef struct internal_command
+typedef struct
 {
     const char * name;
     int (*execute)(char **argv);
@@ -20,5 +20,8 @@ typedef struct internal_command
 internalCommand;
 
 int cmd_cd(char **argv);
+
+extern internalCommand internal_commands[];
+extern int icmd_count;
 
 #endif

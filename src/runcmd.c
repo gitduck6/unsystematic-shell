@@ -25,6 +25,15 @@
 
 int runcmd(Command cmd)
 {    
+    // Check if its an internal command:
+    for (int i = 0;i < icmd_count;i++)
+    {
+        if (strcmp(internal_commands[i].name,cmd.argv[0]) == 0)
+        {
+            return internal_commands[i].execute(cmd.argv);
+        }
+    }
+
     // creating the process:
     __pid_t pid = fork();
 
