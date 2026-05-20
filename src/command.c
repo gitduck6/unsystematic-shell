@@ -1,6 +1,6 @@
 #include "command.h"
 
-int change_dir(char **argv)
+int cmd_cd(char **argv)
 {
     int status = chdir(argv[1]);
     if ( status != 0)
@@ -9,3 +9,10 @@ int change_dir(char **argv)
     }
     return status;
 }
+
+internalCommand internal_commands[] =
+{
+    {"cd",cmd_cd}
+};
+
+int icmd_count = (sizeof(internal_commands)/ sizeof(internal_commands[0]));

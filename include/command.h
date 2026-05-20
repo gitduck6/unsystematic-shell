@@ -19,7 +19,6 @@ typedef struct internal_command
 }
 internalCommand;
 
-int change_dir(char **argv);
-
+int cmd_cd(char **argv);
 
 #endif
