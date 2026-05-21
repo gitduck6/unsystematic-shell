@@ -24,7 +24,15 @@ int cmd_set(char **argv)
 {
     (void)argv;
 
-    setenv(argv[1],argv[2],1);
+    if ((argv[1] != NULL) && (argv[2] != NULL)) 
+        setenv(argv[1],argv[2],1);
+    else
+    {
+        fprintf(stderr,"Usage: %s [variable name] [new value]\n",argv[0]);
+        return -1;
+    }
+
+    return 0;
 }
 
 internalCommand internal_commands[] =
