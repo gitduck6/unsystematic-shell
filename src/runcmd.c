@@ -37,6 +37,12 @@ int runcmd(Command cmd)
     // (Check if its an) internal command:
     for (int i = 0;i < icmd_count;i++)
     {
+        // for some reason either of these would turn out to be NULL, which would cause a segfault
+        // since strcmp cant handle them
+        // TODO: look into this
+        if ((internal_commands[i].name == NULL ) || (cmd.argv[0] == NULL))
+            continue;
+
         if (strcmp(internal_commands[i].name,cmd.argv[0]) == 0)
         {
             return internal_commands[i].execute(cmd.argv);

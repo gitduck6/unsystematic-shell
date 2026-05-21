@@ -80,13 +80,13 @@ char * readline(FILE * fd)
     char * dest = calloc(size,sizeof(char));
     if (dest == NULL) return NULL;
 
-    char c;
+    int c;
     for (;((c = fgetc(fd)) != EOF) && (c != '\n');len++)
     {
         if ((len + 2) >= size)
         {
             size *= 2;
-            char * temp = realloc(dest,size); 
+            char * temp = realloc(dest,size * sizeof(char)); 
             if (temp != NULL) dest = temp;
             else 
             {
@@ -94,7 +94,7 @@ char * readline(FILE * fd)
                 return NULL;
             }
         }
-        dest[len] = c;
+        dest[len] = (char)c;
     }
     dest[++len] = '\0';
     return dest;
@@ -105,6 +105,7 @@ char * readline(FILE * fd)
 */
 int tokenize(char *string, Command* target)
 {
+    if (string == NULL) return -3;
     //section1:
     size_t token_count = 0;
     size_t token_size = 4;
