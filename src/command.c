@@ -11,9 +11,19 @@ int cmd_cd(char **argv)
     return status;
 }
 
+int cmd_exit(char **argv)
+{
+    (void)argv;
+
+    printf("Exitting shell...\n");
+    exit(0);
+}
+
+
 internalCommand internal_commands[] =
 {
-    {"cd",cmd_cd}
+    {"cd",cmd_cd},
+    {"exit",cmd_exit}
 };
 
 
