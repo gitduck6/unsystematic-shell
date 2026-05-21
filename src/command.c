@@ -19,11 +19,19 @@ int cmd_exit(char **argv)
     exit(0);
 }
 
+// An internal command to set enviroment variables
+int cmd_set(char **argv)
+{
+    (void)argv;
+
+    setenv(argv[1],argv[2],1);
+}
 
 internalCommand internal_commands[] =
 {
     {"cd",cmd_cd},
-    {"exit",cmd_exit}
+    {"exit",cmd_exit},
+    {"set", cmd_set}
 };
 
 

@@ -1,6 +1,11 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
+#ifndef _DEFAULT_SOURCE
+#define _DEFAULT_SOURCE
+#endif
+// Macro that allows setenv to exist
+
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,6 +27,7 @@ internalCommand;
 
 int cmd_cd(char **argv);
 int cmd_exit(char **argv);
+int cmd_set(char **argv);
 
 
 extern internalCommand internal_commands[];
