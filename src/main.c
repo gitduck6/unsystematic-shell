@@ -25,6 +25,8 @@ int main(void)
     while (1)
     {
         printf(" %s ",SHELL_PROMPT);
+        fflush(stdout);
+
         char * shell_input = readline(stdin);
 
         Command parsed_command;
