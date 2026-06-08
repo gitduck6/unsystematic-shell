@@ -35,11 +35,40 @@ int cmd_set(char **argv)
     return 0;
 }
 
+int cmd_help(char **argv)
+{
+    (void)argv;
+
+    char *msg = 
+    "Ushell - Unsystematic Unix Shell (Havent thought of a name yet)\n"
+    "Use \"man command name\" to find out about a command,\n"
+    "this is just the shell's help menu!\n"
+    "The internal commands are as follows:\n\n"
+
+    "cd [directory]\n"
+    "\t-Changes directory to the specified one\n"
+
+    "exit\n"
+    "\t-Exits the shell\n"
+
+    "set [varname] [new value]\n"
+    "\t-Sets a variable to a new value\n"
+
+    "help\n"
+    "\t-Display this menu\n"
+    "For more information visit: https://github.com/gitduck6/unnamed-shell1\n";
+
+    printf("%s",msg);
+    return 0;
+}
+
+
 internalCommand internal_commands[] =
 {
-    {"cd",cmd_cd},
-    {"exit",cmd_exit},
-    {"set", cmd_set}
+    {"cd", cmd_cd},
+    {"exit", cmd_exit},
+    {"set", cmd_set},
+    {"help", cmd_help}
 };
 
 

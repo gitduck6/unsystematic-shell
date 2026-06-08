@@ -28,6 +28,7 @@ internalCommand;
 int cmd_cd(char **argv);
 int cmd_exit(char **argv);
 int cmd_set(char **argv);
+int cmd_help(char **argv);
 
 
 extern internalCommand internal_commands[];
