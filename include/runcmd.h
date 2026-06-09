@@ -9,6 +9,7 @@
 #include <string.h>
 
 #include "command.h"
+#include "internalcmd.h"
 
 #define SHELL_PROMPT "%"
 
