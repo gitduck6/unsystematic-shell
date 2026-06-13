@@ -81,7 +81,7 @@ char * readline(FILE * fd)
     if (dest == NULL) return NULL;
 
     int c;
-    for (;((c = fgetc(fd)) != EOF) && (c != '\n');len++)
+    while ( ((c = fgetc(fd)) != EOF) && (c != '\n') )
     {
         if ((len + 2) >= size)
         {
@@ -94,7 +94,7 @@ char * readline(FILE * fd)
                 return NULL;
             }
         }
-        dest[len] = (char)c;
+        dest[len++] = (char)c;
     }
     dest[++len] = '\0';
     return dest;
