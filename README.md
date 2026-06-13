@@ -15,10 +15,10 @@ and please dont mind the possibly messy text, cos its kinda hard to update the r
 | Pipes                      | Not implemented |  
 | Sequential execution       | Not implemented | 
 | Daemonisation of a command | Not Implemented |
-| Some internal commands | only cd |
+| Some internal commands | cd, exit, set, and help |
 | Scriptablity | None|
-| Proper signal handling | Nope|
-| enviroment variable support| only reading via $ |
+| Proper signal handling | Somewhat (doesnt die upon ctrl+c)|
+| enviroment variable support| reading via $, and writing via set |
 | Autofill via tab           | Unplanned       |
 
 there kinda isnt a whole lot rn buuuut.... it is what it is.
