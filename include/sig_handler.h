@@ -5,9 +5,6 @@
 
 extern int current_sig;
 
-void sig_handler(int si)
-{
-    return;
-}
+void sigint_handler(int si);
 
 #endif

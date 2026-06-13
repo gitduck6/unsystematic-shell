@@ -1,7 +1,11 @@
+#define _DEFAULT_SOURCE
+
 #include <stdlib.h>
+#include <signal.h>
 
 #include "runcmd.h"
 #include "lexer.h"
+#include "sig_handler.h"
 
 /*
     * Hello im really bad at this stuff so ima try to make a new larger project
@@ -22,6 +26,10 @@
 int main(void)
 {
     
+    struct sigaction sa;
+    sa.sa_handler = sigint_handler;
+    sigaction(SIGINT, &sa, NULL);
+
     while (1)
     {
         printf(" %s ",SHELL_PROMPT);
