@@ -2,6 +2,7 @@
 #define SIG_HANDLER_H
 
 #include <signal.h>
+#include <stdio.h>
 
 extern int current_sig;
 
