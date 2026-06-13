@@ -37,6 +37,15 @@ int main(void)
 
         char * shell_input = readline(stdin);
 
+        if (shell_input == NULL)
+        {
+            continue;
+        }
+        else 
+        {
+            if (*shell_input == '\0') continue;
+        }
+
         if (current_sig)
         {
             current_sig = 0;
