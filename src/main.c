@@ -37,6 +37,13 @@ int main(void)
 
         char * shell_input = readline(stdin);
 
+        if (current_sig)
+        {
+            current_sig = 0;
+            free(shell_input);
+            continue;
+        }
+
         Command parsed_command;
         tokenize(shell_input, &parsed_command); 
 
