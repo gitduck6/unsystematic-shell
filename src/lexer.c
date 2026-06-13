@@ -81,8 +81,11 @@ char * readline(FILE * fd)
     if (dest == NULL) return NULL;
 
     int c;
-    for (;((c = fgetc(fd)) != EOF) && (c != '\n');len++)
+    for (;(c = fgetc(fd)) != '\n';len++)
     {
+
+        if (c == EOF) cmd_exit(NULL);
+
         if ((len + 2) >= size)
         {
             size *= 2;
