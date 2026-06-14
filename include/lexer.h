@@ -8,6 +8,9 @@
 #include <internalcmd.h>
 #include <sig_handler.h>
 
+#define N_TOKEN 64
+
+
 char * readline(FILE * fd);
 int tokenize(char *string, Command* target);
 

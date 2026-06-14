@@ -114,6 +114,79 @@ char * readline(FILE * fd)
     return dest;
 }
 
+
+#define N_TOKEN 64
+
+static char* substr(const char * src, int start, int len)
+{
+    char *s = malloc(len + 1);
+    if (!s) return NULL;
+
+    memcpy(s,src + start, len);
+
+    s[len+1] = '\0';
+    return s;
+}
+
+char ** lexer(char *string)
+{
+    char ** tokens = malloc(sizeof(char *) * N_TOKEN);
+
+    int count = 0;
+    int string_index = 0;
+
+    while (string[string_index])
+    {
+        while (isspace(string[string_index])) string_index++;
+
+        if (string[string_index] == '\0') break;
+
+        // inquote expressions
+        if (string[string_index] == '"')
+        {
+            int start = ++string_index;
+
+            while (string[string_index] && (string[string_index] != '"'))
+                string_index++;
+
+            tokens[count++] = substr(string,start, string_index - start);
+
+            if (string[string_index] == '"')
+                string_index++;
+        }
+        // Double char expressions
+        else if ( ((string[string_index] == '>') && (string[string_index + 1] == '>')) ||
+                  ((string[string_index] == '<') && (string[string_index + 1] == '<')))
+        {
+            tokens[count++] = substr(string, string_index, 2);
+            string_index += 2;
+        }
+        else if ( strchr("><|&", string[string_index]) )
+        {
+            tokens[count++] = substr(string, string_index, 1);
+            string_index++;
+        }
+        else
+        {
+            size_t start = string_index;
+
+            while (string[string_index] &&
+                   !isspace((unsigned char)string[string_index]) &&
+                   !strchr("|<>\"", string[string_index]))
+            {
+                string_index++;
+            }
+
+            tokens[count++] = substr(string, start, string_index - start);
+        }
+            
+        
+    }
+    tokens[count] = NULL;
+    return tokens;
+
+}
+
 /*
     attempts to return a cstring array in the {"Hello", "World", "!", NULL}; format
 */
