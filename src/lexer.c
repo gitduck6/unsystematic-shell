@@ -114,9 +114,6 @@ char * readline(FILE * fd)
     return dest;
 }
 
-
-#define N_TOKEN 64
-
 static char* substr(const char * src, int start, int len)
 {
     char *s = malloc(len + 1);
@@ -128,7 +125,7 @@ static char* substr(const char * src, int start, int len)
     return s;
 }
 
-char ** lexer(char *string)
+char ** lexer(char *string, size_t * count_p)
 {
     char ** tokens = malloc(sizeof(char *) * N_TOKEN);
 
@@ -183,6 +180,7 @@ char ** lexer(char *string)
         
     }
     tokens[count] = NULL;
+    *count_p = count;
     return tokens;
 
 }
@@ -194,42 +192,9 @@ int tokenize(char *string, Command* target)
 {
     if (string == NULL) return -3;
     //section1:
-    size_t token_count = 0;
-    size_t token_size = 4;
-    target->argv = malloc(sizeof(char *) * token_size);
-    if (target->argv == NULL) 
-    {
-        return -2;
-    } 
+    size_t token_count;
+    target->argv = lexer(string, &token_count);
 
-    char * token = strtok(string," \t"); // either space or tab
-    while (token != NULL)
-    {
-        target->argv[token_count] = token;
-        token = strtok(NULL," \t");
-        token_count++;
-
-        if ((token_count + 1) >= token_size)
-        {
-            token_size *= 2;
-            char **temp = realloc(target->argv,sizeof(char*) * token_size);
-            if (temp == NULL) 
-            {
-                free(target->argv);
-                return -1;
-            } 
-            else target->argv = temp;
-        }
-    }
-
-    // resize to the exact needed size
-    char ** temp = realloc(target->argv,sizeof(char*) * (token_count + 1) );
-    if (temp != NULL) 
-    {
-        target->argv = temp;
-    }
-    // Lets just return it as was  in case of a realloc fail without freeing
-    // since this part only attempts to lower the size, we already got more than enough memory anyway 
 
     //section2:
     target->argv[token_count] = NULL; //null terminate pointer array
