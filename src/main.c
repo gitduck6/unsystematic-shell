@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <signal.h>
 
+#include "readline.h"
 #include "runcmd.h"
 #include "lexer.h"
 #include "sig_handler.h"
