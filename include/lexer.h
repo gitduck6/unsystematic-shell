@@ -15,6 +15,7 @@
 
 char * readline(FILE * fd);
 char ** lexer(char *string, size_t * count_p);
+void free_tokens(char ** tokens);
 int tokenize(char *string, Command* target);
 
 #endif

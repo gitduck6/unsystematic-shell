@@ -185,6 +185,15 @@ char ** lexer(char *string, size_t * count_p)
 
 }
 
+void free_tokens(char ** tokens)
+{
+    for (int i = 0;tokens[i] != NULL;i++)
+    {
+        free(tokens[i]);
+    }
+    free(tokens);
+}
+
 /*
     attempts to return a cstring array in the {"Hello", "World", "!", NULL}; format
 */

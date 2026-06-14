@@ -58,7 +58,7 @@ int main(void)
 
         runcmd(parsed_command);
 
-        free(parsed_command.argv);
+        free_tokens(parsed_command.argv);
         free(shell_input);
     }
 
