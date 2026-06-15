@@ -73,45 +73,84 @@
     * but when it doesnt exist, put a space in its place (THATS WHEN IT IS NULL)
 */
 
-char * readline(FILE * fd)
+static char* substr(const char * src, int start, int len)
 {
-    size_t size = 16;
-    size_t len = 0;
-    char * dest = calloc(size,sizeof(char));
-    if (dest == NULL) return NULL;
+    char *s = malloc(len + 1);
+    if (!s) return NULL;
 
-    int c;
-    while ((c = fgetc(fd)) != '\n')
+    memcpy(s,src + start, len);
+
+    s[len] = '\0';
+    return s;
+}
+
+char ** lexer(char *string, size_t * count_p)
+{
+    char ** tokens = malloc(sizeof(char *) * N_TOKEN);
+
+    int count = 0;
+    int string_index = 0;
+
+    while (string[string_index])
     {
-        if (c == EOF)
-        {
-            if (current_sig == 2)
-            {
-                current_sig = 0;
-                free(dest);
-                return NULL;
-            }
-            if (current_sig == 0)
-            {
-                cmd_exit(NULL);
-            }
-        }
+        while (isspace(string[string_index])) string_index++;
 
-        if ((len + 2) >= size)
+        if (string[string_index] == '\0') break;
+
+        // inquote expressions
+        if (string[string_index] == '"')
         {
-            size *= 2;
-            char * temp = realloc(dest,size * sizeof(char)); 
-            if (temp != NULL) dest = temp;
-            else 
-            {
-                free(dest);
-                return NULL;
-            }
+            int start = ++string_index;
+
+            while (string[string_index] && (string[string_index] != '"'))
+                string_index++;
+
+            tokens[count++] = substr(string,start, string_index - start);
+
+            if (string[string_index] == '"')
+                string_index++;
         }
-        dest[len++] = (char)c;
+        // Double char expressions
+        else if ( ((string[string_index] == '>') && (string[string_index + 1] == '>')) ||
+                  ((string[string_index] == '<') && (string[string_index + 1] == '<')))
+        {
+            tokens[count++] = substr(string, string_index, 2);
+            string_index += 2;
+        }
+        else if ( strchr("><|&", string[string_index]) )
+        {
+            tokens[count++] = substr(string, string_index, 1);
+            string_index++;
+        }
+        else
+        {
+            size_t start = string_index;
+
+            while (string[string_index] &&
+                   !isspace((unsigned char)string[string_index]) &&
+                   !strchr("|<>\"", string[string_index]))
+            {
+                string_index++;
+            }
+
+            tokens[count++] = substr(string, start, string_index - start);
+        }
+            
+        
     }
-    dest[len] = '\0';
-    return dest;
+    tokens[count] = NULL;
+    *count_p = count;
+    return tokens;
+
+}
+
+void free_tokens(char ** tokens)
+{
+    for (int i = 0;tokens[i] != NULL;i++)
+    {
+        free(tokens[i]);
+    }
+    free(tokens);
 }
 
 /*
@@ -121,42 +160,9 @@ int tokenize(char *string, Command* target)
 {
     if (string == NULL) return -3;
     //section1:
-    size_t token_count = 0;
-    size_t token_size = 4;
-    target->argv = malloc(sizeof(char *) * token_size);
-    if (target->argv == NULL) 
-    {
-        return -2;
-    } 
+    size_t token_count;
+    target->argv = lexer(string, &token_count);
 
-    char * token = strtok(string," \t"); // either space or tab
-    while (token != NULL)
-    {
-        target->argv[token_count] = token;
-        token = strtok(NULL," \t");
-        token_count++;
-
-        if ((token_count + 1) >= token_size)
-        {
-            token_size *= 2;
-            char **temp = realloc(target->argv,sizeof(char*) * token_size);
-            if (temp == NULL) 
-            {
-                free(target->argv);
-                return -1;
-            } 
-            else target->argv = temp;
-        }
-    }
-
-    // resize to the exact needed size
-    char ** temp = realloc(target->argv,sizeof(char*) * (token_count + 1) );
-    if (temp != NULL) 
-    {
-        target->argv = temp;
-    }
-    // Lets just return it as was  in case of a realloc fail without freeing
-    // since this part only attempts to lower the size, we already got more than enough memory anyway 
 
     //section2:
     target->argv[token_count] = NULL; //null terminate pointer array

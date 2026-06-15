@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <signal.h>
 
+#include "readline.h"
 #include "runcmd.h"
 #include "lexer.h"
 #include "sig_handler.h"
@@ -58,7 +59,7 @@ int main(void)
 
         runcmd(parsed_command);
 
-        free(parsed_command.argv);
+        free_tokens(parsed_command.argv);
         free(shell_input);
     }
 
