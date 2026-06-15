@@ -80,7 +80,7 @@ static char* substr(const char * src, int start, int len)
 
     memcpy(s,src + start, len);
 
-    s[len+1] = '\0';
+    s[len] = '\0';
     return s;
 }
 
