@@ -213,6 +213,7 @@ int tokenize(char *string, Command* target)
             free(target->argv[i]);
             target->argv[i] = new_arg;
 
+            // we basically malloc it all cos free_token function frees EVERYTHING
         }
     }
     
