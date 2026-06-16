@@ -1,5 +1,35 @@
 #include "internalcmd.h"
 
+
+static char * getcwd_physical(void)
+{
+    size_t size = 64;
+    char *buff = malloc(size);
+
+    while (getcwd(buff,size) == NULL)
+    {
+
+        if (errno != ERANGE) 
+        {
+            perror("range");
+            free(buff);
+            exit(-1);
+        }
+
+        size*=2;
+        char * temp = realloc(buff,size);
+        if (temp == NULL)
+        {
+            perror("memory");
+            free(buff);
+            exit(-2);
+        }
+        buff = temp;
+    }
+
+    return buff;
+}
+
 // basic cd implementation
 int cmd_cd(char **argv)
 {
@@ -14,6 +44,10 @@ int cmd_cd(char **argv)
     if (status < 0)
     {
         perror(argv[0]);
+    }
+    else
+    {
+        setenv("PWD", getcwd_physical(), 1);
     }
 
     return status;
