@@ -3,11 +3,19 @@
 // basic cd implementation
 int cmd_cd(char **argv)
 {
-    int status = chdir(argv[1]);
-    if ( status != 0)
+    char * addr;
+    if (argv[1] == NULL)
+        addr = getenv("HOME");
+    else
+        addr = argv[1];
+
+    int status = chdir(addr);
+
+    if (status < 0)
     {
         perror(argv[0]);
     }
+
     return status;
 }
 
