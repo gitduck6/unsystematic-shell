@@ -15,13 +15,28 @@
     * rightnow my goal is to implement a simple sh clone, with pipes, redirects and everything
     * but who knows how far it will go
     * 
-    * Currently does almost nothing but execute commands in a very rudimentary way
+    * Currently kinda parses and executes with ability to handle simple file i/o
     * did i mention that im making this cos i was too stupid to read xv6's sh.c
     * 
     * Hello dear reader! the development is going nice :)
     * atleast i feel nice coding it
     * i never wrote a "devlog" or even read one, maybe i should try that sometimes
     * also i seperated some functions into different files
+    * ----
+    * Sumrary of the main.c file as of 24 jun 2026:
+    * This file doesnt handle much except stick everything together,
+    * the first part sets the signal handler function to sigint_handler
+    * it kinda handles everything but kinda also only sigint idk :3
+    * 
+    * next theres a while (1) loop which runs forever,
+    * print the shell prompt, fflush so it shows up regardless
+    * 
+    * read line, if its empty continue
+    * 
+    * if there was a signal, remove that signal from the variable and restart the loop
+    * 
+    * tokenise shell input into a parsed command type, run this parsed command
+    * free everything we need, and restart the loop
 */
 
 int main(void)
