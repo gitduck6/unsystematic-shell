@@ -2,7 +2,7 @@
 
 int current_sig;
 
-void sigint_handler(int si)
+void sig_handler(int si)
 {
     current_sig = si;
 

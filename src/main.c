@@ -43,7 +43,7 @@ int main(void)
 {
     
     struct sigaction sa;
-    sa.sa_handler = sigint_handler;
+    sa.sa_handler = sig_handler;
     sigaction(SIGINT, &sa, NULL);
 
     while (1)
