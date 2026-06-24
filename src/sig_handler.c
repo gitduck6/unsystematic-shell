@@ -6,6 +6,6 @@ void sig_handler(int si)
 {
     current_sig = si;
 
-    fputc('\n', stdout);
+    if (current_sig == SIGINT) fputc('\n', stdout);
     return;
 }

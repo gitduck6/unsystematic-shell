@@ -33,7 +33,7 @@
     * 
     * read line, if its empty continue
     * 
-    * if there was a signal, remove that signal from the variable and restart the loop
+    * if there was a signal, remove that signal from the variable, handle the specific signal, and restart the loop
     * 
     * tokenise shell input into a parsed command type, run this parsed command
     * free everything we need, and restart the loop
@@ -65,10 +65,12 @@ int main(void)
         if (current_sig)
         {
             current_sig = 0;
-            free(shell_input);
-            continue;
+            if (current_sig == SIGINT)
+            {
+                free(shell_input);
+                continue;
+            }
         }
-
         Command parsed_command;
         tokenize(shell_input, &parsed_command); 
 
